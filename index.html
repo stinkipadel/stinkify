@@ -343,62 +343,64 @@
 <audio id="audioEl"></audio>
 
 <script>
+function enc(f) { return f ? encodeURI(f) : null; }
+
 const songs = [
   {
     title: "Happy Wife Hunt",
     album: "Happy Wife Hunt Pt. 1",
     artist: "Stinki",
-    cover: "Happy%20Wife%20Hunt.jpeg",
-    audio: "Happy%20Wife%20Hunt.mp3",
-    video: "Happy%20Wife%20Hunt.mp4"
+    cover: "Happy Wife Hunt.jpeg",
+    audio: "Happy Wife Hunt.mp3",
+    video: "Happy Wife Hunt.mp4"
   },
   {
     title: "Clumsy Bruise Drop",
     album: "Happy Wife Hunt Pt. 2",
     artist: "Stinki",
-    cover: "_Clumsy%20Bruise%20Drop%20%28Happy%20Wife%20Hunt%20Pt.%202%29_.jpeg",
-    audio: "_Clumsy%20Bruise%20Drop%20%28Happy%20Wife%20Hunt%20Pt.%202%29_.mp3",
-    video: "_Clumsy%20Bruise%20Drop%20%28Happy%20Wife%20Hunt%20Pt.%202%29_.mp4"
+    cover: "_Clumsy Bruise Drop (Happy Wife Hunt Pt. 2)_.jpeg",
+    audio: "_Clumsy Bruise Drop (Happy Wife Hunt Pt. 2)_.mp3",
+    video: "_Clumsy Bruise Drop (Happy Wife Hunt Pt. 2)_.mp4"
   },
   {
     title: "Hot Fart Warfare",
     album: "Happy Wife Hunt Pt. 3",
     artist: "Stinki",
-    cover: "Hot%20Fart%20Warfare%20%28Happy%20Wife%20Hunt%20Pt.%203%29.jpeg",
-    audio: "Hot%20Fart%20Warfare%20%28Happy%20Wife%20Hunt%20Pt.%203%29.mp3",
-    video: "Hot%20Fart%20Warfare%20%28Happy%20Wife%20Hunt%20Pt.%203%29.mp4"
+    cover: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).jpeg",
+    audio: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).mp3",
+    video: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).mp4"
   },
   {
     title: "O Come Lhe AndaHAA?",
     album: "Stinki & Pasqui",
     artist: "Stinki & Pasqui",
-    cover: "O%20Come%20Lhe%20AndaHAAA_.jpeg",
-    audio: "O%20Come%20Lhe%20AndaHAAA_.mp3",
-    video: "O%20Come%20Lhe%20AndaHAAA_.mp4"
+    cover: "O Come Lhe AndaHAAA_.jpeg",
+    audio: "O Come Lhe AndaHAAA_.mp3",
+    video: "O Come Lhe AndaHAAA_.mp4"
   },
   {
     title: "SHIT Again, Brittany",
     album: "Happy life — Poor Ema's Nightmare",
     artist: "Stinki",
-    cover: "SHIT%20Again%2C%20Brittany.jpeg",
-    audio: "SHIT%20Again%2C%20Brittany.mp3",
-    video: "SHIT%20Again%2C%20Brittany.mp4"
+    cover: "SHIT Again, Brittany.jpeg",
+    audio: "SHIT Again, Brittany.mp3",
+    video: "SHIT Again, Brittany.mp4"
   },
   {
     title: "Tube Blues per Iaia",
     album: "Londra Chaos 70",
     artist: "Stinki",
-    cover: "Tube%20Blues.jpeg",
-    audio: "Tube%20Blues.mp3",
-    video: "Tube%20Blues.mp4"
+    cover: "Tube Blues.jpeg",
+    audio: "Tube Blues.mp3",
+    video: "Tube Blues.mp4"
   },
   {
     title: "Bicco 30",
     album: "Bicco 30",
     artist: "Stinki",
-    cover: "Bicco%2030.jpeg",
-    audio: "Bicco%2030%20%281%29.mp3",
-    video: "Bicco%2030.mp4"
+    cover: "Bicco 30.jpeg",
+    audio: "Bicco 30 (1).mp3",
+    video: "Bicco 30.mp4"
   }
 ];
 
@@ -426,7 +428,7 @@ songs.forEach((s, i) => {
   el.id = 'song-' + i;
   el.onclick = () => loadSong(i, true);
   el.innerHTML = `
-    <img class="song-thumb" src="${s.cover}" alt="${s.title}">
+    <img class="song-thumb" src="${enc(s.cover)}" alt="${s.title}">
     <div class="song-item-info">
       <div class="song-item-title">${s.title}</div>
       <div class="song-item-artist">${s.artist}</div>
@@ -443,12 +445,12 @@ function loadSong(idx, play = false) {
   document.getElementById('song-' + idx).classList.add('active');
   document.getElementById('song-' + idx).scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
 
-  mainCover.src = s.cover;
+  mainCover.src = enc(s.cover);
   mainCover.className = 'cover-img';
   mainTitle.textContent = s.title;
   mainArtist.textContent = s.artist;
   mainAlbum.textContent = s.album;
-  playerThumb.src = s.cover;
+  playerThumb.src = enc(s.cover);
   playerTitle.textContent = s.title;
   videoBtn.classList.toggle('hidden', !s.video);
 
@@ -458,7 +460,7 @@ function loadSong(idx, play = false) {
   totalTimeEl.textContent = '0:00';
 
   if (s.audio) {
-    audioEl.src = s.audio;
+    audioEl.src = enc(s.audio);
     audioEl.volume = document.getElementById('volSlider').value;
     if (play) {
       audioEl.play().then(() => {
@@ -496,7 +498,7 @@ function seekTo(e) {
 
 function openVideo() {
   if (currentIdx === -1 || !songs[currentIdx].video) return;
-  videoEl.src = songs[currentIdx].video;
+  videoEl.src = enc(songs[currentIdx].video);
   videoEl.currentTime = audioEl.currentTime;
   audioEl.pause();
   document.getElementById('videoOverlay').classList.add('show');
