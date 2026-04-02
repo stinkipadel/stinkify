@@ -11,38 +11,38 @@
     --bg: #0a0a0f;
     --bg2: #111118;
     --bg3: #1a1a24;
-    --card: #16161f;
     --accent: #b4f045;
     --accent2: #7fff3a;
     --accent-dim: rgba(180,240,69,0.12);
     --accent-glow: rgba(180,240,69,0.3);
     --text: #f0f0f0;
     --muted: #6b6b80;
-    --sidebar-w: 280px;
-    --player-h: 90px;
     --border: rgba(255,255,255,0.06);
+    --player-h: 90px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { height:100%; overflow:hidden; }
+  html, body { height:100%; }
   body {
     font-family: 'Syne', sans-serif;
     background: var(--bg);
     color: var(--text);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    height: 100dvh;
   }
 
-  /* ── LAYOUT ── */
+  /* ══ LAYOUT ══ */
   .app {
     display: flex;
     flex: 1;
     overflow: hidden;
-    height: calc(100vh - var(--player-h));
+    min-height: 0;
   }
 
   /* ── SIDEBAR ── */
   .sidebar {
-    width: var(--sidebar-w);
+    width: 280px;
     background: var(--bg2);
     display: flex;
     flex-direction: column;
@@ -53,138 +53,82 @@
   .sidebar-header {
     padding: 24px 20px 16px;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
   .logo {
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: var(--accent);
+    font-size: 26px; font-weight: 800;
+    letter-spacing: -1px; color: var(--accent);
     text-shadow: 0 0 20px var(--accent-glow);
   }
   .logo span { color: var(--text); }
   .logo-sub {
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 2px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    font-size: 10px; color: var(--muted);
+    margin-top: 2px; letter-spacing: 2px; text-transform: uppercase;
   }
   .sidebar-section {
     padding: 16px 20px 8px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    flex-shrink: 0;
   }
   .song-list {
-    flex: 1;
-    overflow-y: auto;
+    flex: 1; overflow-y: auto;
     padding: 4px 10px 16px;
     scrollbar-width: thin;
     scrollbar-color: var(--bg3) transparent;
+    min-height: 0;
   }
   .song-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.15s;
-    position: relative;
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 10px; border-radius: 8px;
+    cursor: pointer; transition: background 0.15s;
   }
   .song-item:hover { background: var(--bg3); }
-  .song-item.active {
-    background: var(--accent-dim);
-  }
+  .song-item.active { background: var(--accent-dim); }
   .song-item.active .song-item-title { color: var(--accent); }
   .song-thumb {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    object-fit: cover;
-    flex-shrink: 0;
-    background: var(--bg3);
+    width: 40px; height: 40px; border-radius: 6px;
+    object-fit: cover; flex-shrink: 0; background: var(--bg3);
   }
   .song-item-info { min-width: 0; flex: 1; }
   .song-item-title {
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.3;
+    font-size: 13px; font-weight: 700;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .song-item-artist {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 11px; color: var(--muted); margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .song-item .play-indicator {
-    width: 8px; height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: none;
+  .play-indicator {
+    width: 8px; height: 8px; background: var(--accent);
+    border-radius: 50%; flex-shrink: 0; display: none;
     box-shadow: 0 0 8px var(--accent);
     animation: pulse 1.4s ease-in-out infinite;
   }
   .song-item.active .play-indicator { display: block; }
-  .no-audio-badge {
-    font-size: 9px;
-    background: rgba(255,255,255,0.08);
-    color: var(--muted);
-    padding: 2px 6px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
 
   /* ── MAIN ── */
   .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    flex: 1; display: flex; flex-direction: column;
     overflow: hidden;
     background: linear-gradient(160deg, #111120 0%, var(--bg) 60%);
     position: relative;
   }
   .now-playing-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-    overflow: hidden;
-    position: relative;
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 32px 24px; overflow: hidden; position: relative;
+    min-height: 0;
   }
-
-  /* glow bg */
   .bg-glow {
-    position: absolute;
-    width: 400px; height: 400px;
-    border-radius: 50%;
+    position: absolute; width: 400px; height: 400px; border-radius: 50%;
     background: radial-gradient(circle, rgba(180,240,69,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    transition: opacity 0.5s;
+    pointer-events: none; top: 50%; left: 50%; transform: translate(-50%,-50%);
   }
-
-  .cover-wrap {
-    position: relative;
-    margin-bottom: 28px;
-  }
+  .cover-wrap { position: relative; margin-bottom: 24px; }
   .cover-img {
-    width: 240px;
-    height: 240px;
-    border-radius: 16px;
-    object-fit: cover;
+    width: 220px; height: 220px; border-radius: 16px; object-fit: cover; display: block;
     box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
     transition: transform 0.3s, box-shadow 0.3s;
   }
@@ -193,262 +137,152 @@
     box-shadow: 0 28px 70px rgba(0,0,0,0.7), 0 0 40px var(--accent-glow), 0 0 0 1px rgba(255,255,255,0.06);
   }
   .video-btn {
-    position: absolute;
-    bottom: 10px; right: 10px;
-    background: rgba(0,0,0,0.7);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
+    position: absolute; bottom: 10px; right: 10px;
+    background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; color: #fff; padding: 5px 10px;
+    font-size: 11px; font-family: 'Space Mono', monospace;
+    cursor: pointer; backdrop-filter: blur(8px);
     transition: background 0.15s, border-color 0.15s;
   }
   .video-btn:hover { background: rgba(180,240,69,0.2); border-color: var(--accent); color: var(--accent); }
   .video-btn.hidden { display: none; }
-
   .track-title {
-    font-size: 28px;
-    font-weight: 800;
-    text-align: center;
-    line-height: 1.1;
-    max-width: 400px;
-    margin-bottom: 6px;
-    letter-spacing: -0.5px;
+    font-size: 26px; font-weight: 800; text-align: center;
+    line-height: 1.1; max-width: 380px; margin-bottom: 6px; letter-spacing: -0.5px;
   }
-  .track-artist {
-    font-size: 14px;
-    color: var(--muted);
-    font-family: 'Space Mono', monospace;
-    text-align: center;
-    margin-bottom: 4px;
-  }
-  .track-album {
-    font-size: 12px;
-    color: var(--accent);
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: 0.5px;
-    opacity: 0.8;
-  }
+  .track-artist { font-size: 13px; color: var(--muted); font-family: 'Space Mono', monospace; text-align: center; margin-bottom: 4px; }
+  .track-album { font-size: 12px; color: var(--accent); font-weight: 600; text-align: center; opacity: 0.8; }
   .suno-link {
-    margin-top: 12px;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    text-decoration: none;
-    border: 1px solid var(--border);
-    padding: 4px 12px;
-    border-radius: 20px;
-    transition: all 0.15s;
-    letter-spacing: 1px;
+    margin-top: 14px; font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--muted); text-decoration: none;
+    border: 1px solid var(--border); padding: 4px 14px;
+    border-radius: 20px; transition: all 0.15s; letter-spacing: 1px;
   }
   .suno-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
 
-  /* ── VIDEO OVERLAY ── */
-  .video-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    backdrop-filter: blur(8px);
-  }
-  .video-overlay.show { display: flex; }
-  .video-wrap {
-    position: relative;
-    max-width: 800px;
-    width: 90vw;
-  }
-  .video-wrap video {
-    width: 100%;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-  }
-  .close-video {
-    position: absolute;
-    top: -40px; right: 0;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 28px;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.15s;
-  }
-  .close-video:hover { opacity: 1; }
-
-  /* ── PLAYER BAR ── */
+  /* ══ PLAYER BAR ══ */
   .player-bar {
-    height: var(--player-h);
-    background: rgba(13,13,20,0.95);
+    background: rgba(13,13,20,0.97);
     border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    gap: 24px;
+    display: flex; align-items: center;
+    padding: 0 20px; gap: 16px;
     backdrop-filter: blur(20px);
-    flex-shrink: 0;
+    flex-shrink: 0; z-index: 10;
+    height: var(--player-h);
   }
-  .player-thumb {
-    width: 52px; height: 52px;
-    border-radius: 8px;
-    object-fit: cover;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-  .player-info { min-width: 0; width: 180px; flex-shrink: 0; }
-  .player-title {
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .player-artist {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: 'Space Mono', monospace;
-  }
-  .player-controls {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .control-btns {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .player-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+  .player-info { min-width: 0; width: 160px; flex-shrink: 0; }
+  .player-title { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .player-artist { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; margin-top: 2px; }
+  .player-controls { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+  .control-btns { display: flex; align-items: center; gap: 14px; }
   .ctrl-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 18px;
-    padding: 4px;
-    border-radius: 50%;
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 18px; padding: 4px; border-radius: 50%;
     transition: color 0.15s, transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
   }
   .ctrl-btn:hover { color: var(--text); transform: scale(1.1); }
   .ctrl-btn.play-pause {
-    width: 40px; height: 40px;
-    background: var(--accent);
-    color: #000;
-    font-size: 16px;
-    border-radius: 50%;
-    box-shadow: 0 0 20px var(--accent-glow);
-    transition: transform 0.1s, box-shadow 0.1s;
+    width: 38px; height: 38px; background: var(--accent); color: #000;
+    font-size: 15px; border-radius: 50%; box-shadow: 0 0 20px var(--accent-glow);
   }
-  .ctrl-btn.play-pause:hover { transform: scale(1.08); box-shadow: 0 0 30px var(--accent-glow); }
-  .progress-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    max-width: 500px;
-  }
-  .time { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); min-width: 36px; text-align: center; }
-  .progress-track {
-    flex: 1;
-    height: 4px;
-    background: var(--bg3);
-    border-radius: 2px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.1s linear;
-    pointer-events: none;
-  }
-  .progress-track:hover .progress-fill { background: var(--accent2); }
-  .volume-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 130px;
-    flex-shrink: 0;
-  }
-  .vol-icon { font-size: 16px; color: var(--muted); }
+  .ctrl-btn.play-pause:hover { transform: scale(1.08); }
+  .progress-wrap { display: flex; align-items: center; gap: 8px; width: 100%; }
+  .time { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); min-width: 32px; text-align: center; flex-shrink: 0; }
+  .progress-track { flex: 1; height: 4px; background: var(--bg3); border-radius: 2px; cursor: pointer; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0%; transition: width 0.1s linear; pointer-events: none; }
+  .volume-wrap { display: flex; align-items: center; gap: 8px; width: 120px; flex-shrink: 0; }
+  .vol-icon { font-size: 15px; color: var(--muted); }
   input[type=range] {
-    -webkit-appearance: none;
-    appearance: none;
-    background: var(--bg3);
-    height: 4px;
-    border-radius: 2px;
-    outline: none;
-    flex: 1;
-    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    background: var(--bg3); height: 4px; border-radius: 2px;
+    outline: none; flex: 1; cursor: pointer;
   }
   input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 6px var(--accent-glow);
+    -webkit-appearance: none; width: 12px; height: 12px;
+    background: var(--accent); border-radius: 50%;
   }
 
-  /* ── ANIMATIONS ── */
+  /* ══ VIDEO OVERLAY ══ */
+  .video-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.92); z-index: 100;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .video-overlay.show { display: flex; }
+  .video-wrap { position: relative; max-width: 800px; width: 92vw; }
+  .video-wrap video { width: 100%; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+  .close-video {
+    position: absolute; top: -42px; right: 0;
+    background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7;
+  }
+  .close-video:hover { opacity: 1; }
+
+  /* ══ MOBILE ══ */
+  @media (max-width: 640px) {
+    .app { flex-direction: column; }
+
+    /* Sidebar → horizontal strip */
+    .sidebar {
+      width: 100%; height: auto;
+      border-right: none; border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .sidebar-header { padding: 12px 16px 8px; }
+    .logo { font-size: 20px; }
+    .logo-sub { display: none; }
+    .sidebar-section { padding: 6px 16px 4px; font-size: 10px; }
+    .song-list {
+      display: flex; flex-direction: row;
+      overflow-x: auto; overflow-y: hidden;
+      padding: 6px 12px 10px; gap: 10px;
+      scrollbar-width: none;
+    }
+    .song-list::-webkit-scrollbar { display: none; }
+    .song-item {
+      flex-direction: column; align-items: center; text-align: center;
+      gap: 5px; padding: 8px; min-width: 72px; max-width: 72px;
+      border-radius: 10px; position: relative;
+    }
+    .song-thumb { width: 52px; height: 52px; border-radius: 8px; }
+    .song-item-title {
+      font-size: 10px; white-space: normal; line-height: 1.2;
+      overflow: hidden; display: -webkit-box;
+      -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    }
+    .song-item-artist { display: none; }
+    .play-indicator { position: absolute; top: 4px; right: 4px; }
+
+    /* Main */
+    .now-playing-area { padding: 20px 16px 10px; justify-content: flex-start; }
+    .cover-img { width: 150px; height: 150px; }
+    .cover-wrap { margin-bottom: 16px; }
+    .track-title { font-size: 18px; max-width: 260px; }
+    .suno-link { margin-top: 10px; font-size: 9px; }
+
+    /* Player bar */
+    .player-bar { height: auto; padding: 10px 14px; gap: 10px; }
+    .player-thumb { width: 40px; height: 40px; }
+    .player-info { width: 110px; }
+    .player-title { font-size: 11px; }
+    .volume-wrap { display: none; }
+    .time { font-size: 9px; min-width: 24px; }
+  }
+
   @keyframes pulse {
     0%,100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(0.7); }
   }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .cover-img.playing { animation: none; }
-
-  /* ── SCROLLBAR ── */
   .song-list::-webkit-scrollbar { width: 4px; }
   .song-list::-webkit-scrollbar-track { background: transparent; }
   .song-list::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
-
-  /* ── EMPTY STATE ── */
-  .no-audio-msg {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    padding: 8px 16px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 8px;
-    margin-top: 8px;
-    border: 1px dashed var(--border);
-  }
-
-  @media (max-width: 640px) {
-    :root { --sidebar-w: 200px; }
-    .track-title { font-size: 20px; }
-    .cover-img { width: 180px; height: 180px; }
-    .volume-wrap { display: none; }
-  }
 </style>
 </head>
 <body>
 
 <div class="app">
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="logo">Stink<span>ify</span> 🤢</div>
@@ -458,9 +292,8 @@
     <div class="song-list" id="songList"></div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
-    <div class="bg-glow" id="bgGlow"></div>
+    <div class="bg-glow"></div>
     <div class="now-playing-area">
       <div class="cover-wrap">
         <img class="cover-img" id="mainCover" src="" alt="Cover">
@@ -474,30 +307,28 @@
   </main>
 </div>
 
-<!-- VIDEO OVERLAY -->
 <div class="video-overlay" id="videoOverlay">
   <div class="video-wrap">
     <button class="close-video" onclick="closeVideo()">✕</button>
-    <video id="videoEl" controls></video>
+    <video id="videoEl" controls playsinline></video>
   </div>
 </div>
 
-<!-- PLAYER BAR -->
 <div class="player-bar">
   <img class="player-thumb" id="playerThumb" src="" alt="">
   <div class="player-info">
     <div class="player-title" id="playerTitle">—</div>
-    <div class="player-artist" id="playerArtist">@stinki97</div>
+    <div class="player-artist">@stinki97</div>
   </div>
   <div class="player-controls">
     <div class="control-btns">
-      <button class="ctrl-btn" onclick="prevTrack()" title="Precedente">⏮</button>
+      <button class="ctrl-btn" onclick="prevTrack()">⏮</button>
       <button class="ctrl-btn play-pause" id="playPauseBtn" onclick="togglePlay()">▶</button>
-      <button class="ctrl-btn" onclick="nextTrack()" title="Successivo">⏭</button>
+      <button class="ctrl-btn" onclick="nextTrack()">⏭</button>
     </div>
     <div class="progress-wrap">
       <span class="time" id="currentTime">0:00</span>
-      <div class="progress-track" id="progressTrack" onclick="seekTo(event)">
+      <div class="progress-track" onclick="seekTo(event)">
         <div class="progress-fill" id="progressFill"></div>
       </div>
       <span class="time" id="totalTime">0:00</span>
@@ -517,57 +348,57 @@ const songs = [
     title: "Happy Wife Hunt",
     album: "Happy Wife Hunt Pt. 1",
     artist: "Stinki",
-    cover: "Happy Wife Hunt.jpeg",
-    audio: "Happy Wife Hunt.mp3",
-    video: null
+    cover: "Happy%20Wife%20Hunt.jpeg",
+    audio: "Happy%20Wife%20Hunt.mp3",
+    video: "Happy%20Wife%20Hunt.mp4"
   },
   {
     title: "Clumsy Bruise Drop",
     album: "Happy Wife Hunt Pt. 2",
     artist: "Stinki",
-    cover: "_Clumsy Bruise Drop (Happy Wife Hunt Pt. 2)_.jpeg",
-    audio: "_Clumsy Bruise Drop (Happy Wife Hunt Pt. 2)_.mp3",
-    video: null
+    cover: "_Clumsy%20Bruise%20Drop%20%28Happy%20Wife%20Hunt%20Pt.%202%29_.jpeg",
+    audio: "_Clumsy%20Bruise%20Drop%20%28Happy%20Wife%20Hunt%20Pt.%202%29_.mp3",
+    video: "_Clumsy%20Bruise%20Drop%20%28Happy%20Wife%20Hunt%20Pt.%202%29_.mp4"
   },
   {
     title: "Hot Fart Warfare",
     album: "Happy Wife Hunt Pt. 3",
     artist: "Stinki",
-    cover: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).jpeg",
+    cover: "Hot%20Fart%20Warfare%20%28Happy%20Wife%20Hunt%20Pt.%203%29.jpeg",
     audio: null,
-    video: null
+    video: "Hot%20Fart%20Warfare%20%28Happy%20Wife%20Hunt%20Pt.%203%29.mp4"
   },
   {
     title: "O Come Lhe AndaHAA?",
     album: "Stinki & Pasqui",
     artist: "Stinki & Pasqui",
-    cover: "O Come Lhe AndaHAAA_.jpeg",
-    audio: "O Come Lhe AndaHAAA_.mp3",
-    video: null
+    cover: "O%20Come%20Lhe%20AndaHAAA_.jpeg",
+    audio: "O%20Come%20Lhe%20AndaHAAA_.mp3",
+    video: "O%20Come%20Lhe%20AndaHAAA_.mp4"
   },
   {
     title: "SHIT Again, Brittany",
-    album: "Happy life, Happy life — Poor Ema's Nightmare",
+    album: "Happy life — Poor Ema's Nightmare",
     artist: "Stinki",
-    cover: "SHIT Again, Brittany.jpeg",
-    audio: "SHIT Again, Brittany.mp3",
-    video: null
+    cover: "SHIT%20Again%2C%20Brittany.jpeg",
+    audio: "SHIT%20Again%2C%20Brittany.mp3",
+    video: "SHIT%20Again%2C%20Brittany.mp4"
   },
   {
     title: "Tube Blues per Iaia",
     album: "Londra Chaos 70",
     artist: "Stinki",
-    cover: "Tube Blues.jpeg",
-    audio: "Tube Blues.mp3",
-    video: null
+    cover: "Tube%20Blues.jpeg",
+    audio: "Tube%20Blues.mp3",
+    video: "Tube%20Blues.mp4"
   },
   {
     title: "Bicco 30",
     album: "Bicco 30",
     artist: "Stinki",
-    cover: "Bicco 30.jpeg",
-    audio: "Bicco 30 (1).mp3",
-    video: null
+    cover: "Bicco%2030.jpeg",
+    audio: "Bicco%2030%20%281%29.mp3",
+    video: "Bicco%2030.mp4"
   }
 ];
 
@@ -582,129 +413,85 @@ const mainArtist = document.getElementById('mainArtist');
 const mainAlbum = document.getElementById('mainAlbum');
 const playerThumb = document.getElementById('playerThumb');
 const playerTitle = document.getElementById('playerTitle');
-const playerArtist = document.getElementById('playerArtist');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const progressFill = document.getElementById('progressFill');
 const currentTimeEl = document.getElementById('currentTime');
 const totalTimeEl = document.getElementById('totalTime');
 const videoBtn = document.getElementById('videoBtn');
 
-// Build sidebar
-const songList = document.getElementById('songList');
+const songListEl = document.getElementById('songList');
 songs.forEach((s, i) => {
   const el = document.createElement('div');
   el.className = 'song-item';
   el.id = 'song-' + i;
   el.onclick = () => loadSong(i, true);
   el.innerHTML = `
-    <img class="song-thumb" src="${s.cover}" alt="${s.title}" onerror="this.style.background='#1a1a24'">
+    <img class="song-thumb" src="${s.cover}" alt="${s.title}">
     <div class="song-item-info">
       <div class="song-item-title">${s.title}</div>
       <div class="song-item-artist">${s.artist}</div>
     </div>
-    ${!s.audio ? '<span class="no-audio-badge">cover</span>' : ''}
     <div class="play-indicator"></div>
   `;
-  songList.appendChild(el);
+  songListEl.appendChild(el);
 });
 
 function loadSong(idx, play = false) {
-  // Remove active from all
   document.querySelectorAll('.song-item').forEach(el => el.classList.remove('active'));
-  
   currentIdx = idx;
   const s = songs[idx];
-  
   document.getElementById('song-' + idx).classList.add('active');
-  document.getElementById('song-' + idx).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  
-  // Update main display
+  document.getElementById('song-' + idx).scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+
   mainCover.src = s.cover;
-  mainCover.className = 'cover-img' + (play && s.audio ? ' playing' : '');
+  mainCover.className = 'cover-img';
   mainTitle.textContent = s.title;
   mainArtist.textContent = s.artist;
   mainAlbum.textContent = s.album;
-  
-  // Update player bar
   playerThumb.src = s.cover;
   playerTitle.textContent = s.title;
-  playerArtist.textContent = s.artist;
-  
-  // Video button
-  if (s.video) {
-    videoBtn.classList.remove('hidden');
-  } else {
-    videoBtn.classList.add('hidden');
-  }
-  
-  // Load audio
+  videoBtn.classList.toggle('hidden', !s.video);
+
   audioEl.pause();
   progressFill.style.width = '0%';
   currentTimeEl.textContent = '0:00';
   totalTimeEl.textContent = '0:00';
-  
+
   if (s.audio) {
     audioEl.src = s.audio;
     audioEl.volume = document.getElementById('volSlider').value;
     if (play) {
       audioEl.play().then(() => {
-        isPlaying = true;
-        updatePlayBtn();
+        isPlaying = true; updatePlayBtn();
         mainCover.classList.add('playing');
       }).catch(() => {});
     } else {
-      isPlaying = false;
-      updatePlayBtn();
+      isPlaying = false; updatePlayBtn();
     }
   } else {
-    audioEl.src = '';
-    isPlaying = false;
-    updatePlayBtn();
-    // Show no-audio message briefly
+    audioEl.src = ''; isPlaying = false; updatePlayBtn();
   }
 }
 
 function togglePlay() {
   if (currentIdx === -1) { loadSong(0, true); return; }
-  const s = songs[currentIdx];
-  if (!s.audio) return;
-  
+  if (!songs[currentIdx].audio) return;
   if (isPlaying) {
-    audioEl.pause();
-    isPlaying = false;
-    mainCover.classList.remove('playing');
+    audioEl.pause(); mainCover.classList.remove('playing');
   } else {
-    audioEl.play().then(() => {
-      isPlaying = true;
-      mainCover.classList.add('playing');
-    }).catch(() => {});
+    audioEl.play().then(() => { mainCover.classList.add('playing'); }).catch(() => {});
   }
-  updatePlayBtn();
 }
 
-function updatePlayBtn() {
-  playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
-}
-
-function prevTrack() {
-  const idx = currentIdx <= 0 ? songs.length - 1 : currentIdx - 1;
-  loadSong(idx, isPlaying);
-}
-
-function nextTrack() {
-  const idx = (currentIdx + 1) % songs.length;
-  loadSong(idx, isPlaying);
-}
-
-function setVolume(v) {
-  audioEl.volume = v;
-}
+function updatePlayBtn() { playPauseBtn.textContent = isPlaying ? '⏸' : '▶'; }
+function prevTrack() { loadSong(currentIdx <= 0 ? songs.length - 1 : currentIdx - 1, isPlaying); }
+function nextTrack() { loadSong((currentIdx + 1) % songs.length, isPlaying); }
+function setVolume(v) { audioEl.volume = v; }
 
 function seekTo(e) {
   if (!audioEl.duration) return;
   const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audioEl.currentTime = pct * audioEl.duration;
+  audioEl.currentTime = ((e.clientX - rect.left) / rect.width) * audioEl.duration;
 }
 
 function openVideo() {
@@ -712,50 +499,36 @@ function openVideo() {
   videoEl.src = songs[currentIdx].video;
   videoEl.currentTime = audioEl.currentTime;
   audioEl.pause();
-  isPlaying = false;
-  updatePlayBtn();
   document.getElementById('videoOverlay').classList.add('show');
   videoEl.play();
 }
-
 function closeVideo() {
-  videoEl.pause();
-  audioEl.currentTime = videoEl.currentTime;
-  videoEl.src = '';
-  document.getElementById('videoOverlay').classList.remove('show');
+  videoEl.pause(); audioEl.currentTime = videoEl.currentTime;
+  videoEl.src = ''; document.getElementById('videoOverlay').classList.remove('show');
 }
 
 function fmtTime(s) {
   if (isNaN(s)) return '0:00';
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60);
-  return m + ':' + (sec < 10 ? '0' : '') + sec;
+  return Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0');
 }
 
 audioEl.addEventListener('timeupdate', () => {
   if (!audioEl.duration) return;
-  const pct = (audioEl.currentTime / audioEl.duration) * 100;
-  progressFill.style.width = pct + '%';
+  progressFill.style.width = (audioEl.currentTime / audioEl.duration * 100) + '%';
   currentTimeEl.textContent = fmtTime(audioEl.currentTime);
 });
-audioEl.addEventListener('loadedmetadata', () => {
-  totalTimeEl.textContent = fmtTime(audioEl.duration);
-});
-audioEl.addEventListener('ended', () => {
-  nextTrack();
-});
+audioEl.addEventListener('loadedmetadata', () => { totalTimeEl.textContent = fmtTime(audioEl.duration); });
+audioEl.addEventListener('ended', nextTrack);
 audioEl.addEventListener('play', () => { isPlaying = true; updatePlayBtn(); });
 audioEl.addEventListener('pause', () => { isPlaying = false; updatePlayBtn(); });
 
-// Close video on ESC
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeVideo();
-  if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+  if (e.key === ' ' && e.target.tagName !== 'INPUT') { e.preventDefault(); togglePlay(); }
   if (e.key === 'ArrowRight') nextTrack();
   if (e.key === 'ArrowLeft') prevTrack();
 });
 
-// Load first song without playing
 loadSong(0, false);
 </script>
 </body>
