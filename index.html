@@ -11,11 +11,8 @@
     --bg: #0a0a0f;
     --bg2: #111118;
     --bg3: #1a1a24;
-    --accent: #b4f045;
-    --accent-rgb: 180,240,69;
-    --accent-dim: rgba(180,240,69,0.12);
-    --accent-glow: rgba(180,240,69,0.3);
     --dominant: 180,240,69;
+    --accent-dim: rgba(180,240,69,0.12);
     --text: #f0f0f0;
     --muted: #6b6b80;
     --border: rgba(255,255,255,0.06);
@@ -31,36 +28,27 @@
     flex-direction: column;
     overflow: hidden;
     height: 100dvh;
-    transition: background 0.6s;
   }
 
-  /* ══ LAYOUT ══ */
   .app { display:flex; flex:1; overflow:hidden; min-height:0; }
 
   /* ── SIDEBAR ── */
   .sidebar {
-    width: 270px;
-    background: var(--bg2);
-    display: flex;
-    flex-direction: column;
+    width: 270px; background: var(--bg2);
+    display: flex; flex-direction: column;
     border-right: 1px solid var(--border);
-    overflow: hidden;
-    flex-shrink: 0;
-    transition: background 0.6s;
+    overflow: hidden; flex-shrink: 0;
   }
   .sidebar-header {
     padding: 22px 18px 14px;
     border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-    cursor: pointer;
-    user-select: none;
+    flex-shrink: 0; cursor: pointer; user-select: none;
   }
   .logo {
     font-size: 24px; font-weight: 800; letter-spacing: -1px;
-    color: var(--accent);
+    color: rgb(var(--dominant));
     text-shadow: 0 0 20px rgba(var(--dominant),0.5);
-    transition: transform 0.1s, text-shadow 0.6s;
-    display: inline-block;
+    display: inline-block; transition: text-shadow 0.6s;
   }
   .logo.shake { animation: logoShake 0.5s ease; }
   .logo span { color: var(--text); }
@@ -77,39 +65,32 @@
   }
   .song-list {
     flex:1; overflow-y:auto; padding:4px 8px 16px;
-    scrollbar-width: thin; scrollbar-color: var(--bg3) transparent; min-height:0;
+    scrollbar-width:thin; scrollbar-color:var(--bg3) transparent; min-height:0;
   }
   .song-item {
     display:flex; align-items:center; gap:10px;
     padding:7px 10px; border-radius:8px; cursor:pointer;
-    transition: background 0.15s; position:relative;
+    transition:background 0.15s; position:relative;
   }
   .song-item:hover { background: var(--bg3); }
   .song-item.active { background: rgba(var(--dominant),0.12); }
-  .song-item.active .song-item-title { color: rgba(var(--dominant),1); }
+  .song-item.active .song-item-title { color: rgb(var(--dominant)); }
   .song-thumb {
     width:40px; height:40px; border-radius:6px;
     object-fit:cover; flex-shrink:0; background:var(--bg3);
-    transition: box-shadow 0.3s;
   }
-  .song-item.active .song-thumb {
-    box-shadow: 0 0 0 2px rgba(var(--dominant),0.6);
-  }
+  .song-item.active .song-thumb { box-shadow: 0 0 0 2px rgba(var(--dominant),0.6); }
   .song-item-info { min-width:0; flex:1; }
   .song-item-title { font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .song-item-artist { font-size:10px; color:var(--muted); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .song-item-meta { display:flex; align-items:center; gap:6px; flex-shrink:0; }
-  .play-count {
-    font-family:'Space Mono',monospace; font-size:9px; color:var(--muted);
-    background: var(--bg3); padding:1px 5px; border-radius:8px;
-  }
+  .song-item-meta { display:flex; align-items:center; gap:5px; flex-shrink:0; }
+  .play-count { font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); background:var(--bg3); padding:1px 5px; border-radius:8px; }
   .stink-badge { font-size:10px; }
   .play-indicator {
-    width:7px; height:7px; background:rgba(var(--dominant),1);
+    width:7px; height:7px; background:rgb(var(--dominant));
     border-radius:50%; display:none;
-    box-shadow: 0 0 8px rgba(var(--dominant),0.8);
-    animation: pulse 1.4s ease-in-out infinite;
-    flex-shrink:0;
+    box-shadow:0 0 8px rgba(var(--dominant),0.8);
+    animation:pulse 1.4s ease-in-out infinite; flex-shrink:0;
   }
   .song-item.active .play-indicator { display:block; }
 
@@ -118,9 +99,8 @@
     flex:1; display:flex; flex-direction:column;
     overflow:hidden; position:relative;
     background: linear-gradient(160deg, #111120 0%, var(--bg) 60%);
-    transition: background 0.6s;
   }
-  .bg-gradient {
+  .bg-glow {
     position:absolute; inset:0; pointer-events:none;
     background: radial-gradient(ellipse at 50% 0%, rgba(var(--dominant),0.08) 0%, transparent 60%);
     transition: background 0.8s;
@@ -128,64 +108,65 @@
   .now-playing-area {
     flex:1; display:flex; flex-direction:column;
     align-items:center; justify-content:center;
-    padding:24px 20px 12px; overflow:hidden; position:relative; min-height:0;
+    padding:20px 20px 10px; overflow:hidden; position:relative; min-height:0;
   }
 
-  /* cover / vinyl */
+  /* vinyl toggle */
+  .vinyl-toggle {
+    position:absolute; top:14px; right:14px;
+    background:rgba(0,0,0,0.5); border:1px solid var(--border);
+    border-radius:8px; color:var(--muted); padding:5px 12px;
+    font-size:10px; font-family:'Space Mono',monospace; cursor:pointer;
+    transition:all 0.2s; backdrop-filter:blur(8px); z-index:2;
+  }
+  .vinyl-toggle:hover { color:rgb(var(--dominant)); border-color:rgba(var(--dominant),0.4); }
+  .vinyl-toggle.on { color:rgb(var(--dominant)); border-color:rgba(var(--dominant),0.5); background:rgba(var(--dominant),0.08); }
+
+  /* cover */
   .cover-wrap { position:relative; margin-bottom:18px; flex-shrink:0; }
   .cover-img {
-    width: min(200px, 38vh);
-    height: min(200px, 38vh);
-    border-radius:16px;
-    object-fit:contain;
-    background: rgba(var(--dominant),0.08);
-    display:block;
+    width: min(200px,36vh); height: min(200px,36vh);
+    border-radius:16px; object-fit:contain;
+    background: rgba(var(--dominant),0.07); display:block;
     box-shadow: 0 16px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
-    transition: transform 0.4s, box-shadow 0.4s, border-radius 0.4s;
-    transform-origin: center center;
+    transition: border-radius 0.4s, box-shadow 0.4s, transform 0.4s;
   }
-  .cover-img.vinyl-mode {
+  .cover-img.vinyl {
     border-radius: 50%;
     animation: vinylSpin 8s linear infinite;
-    box-shadow: 0 16px 50px rgba(0,0,0,0.6), 0 0 0 3px rgba(var(--dominant),0.3), 0 0 0 8px rgba(0,0,0,0.5), 0 0 0 9px rgba(var(--dominant),0.1);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.6),
+                0 0 0 3px rgba(var(--dominant),0.35),
+                0 0 0 9px rgba(0,0,0,0.5),
+                0 0 0 10px rgba(var(--dominant),0.1);
   }
-  .cover-img.vinyl-mode.paused { animation-play-state: paused; }
+  .cover-img.vinyl.paused { animation-play-state: paused; }
   .vinyl-dot {
     position:absolute; top:50%; left:50%;
     transform:translate(-50%,-50%);
     width:16px; height:16px; border-radius:50%;
-    background: var(--bg); border:2px solid rgba(var(--dominant),0.5);
-    display:none; pointer-events:none;
-    transition: opacity 0.3s;
+    background:var(--bg); border:2px solid rgba(var(--dominant),0.5);
+    pointer-events:none; opacity:0; transition:opacity 0.4s;
   }
-  .cover-img.vinyl-mode ~ .vinyl-dot { display:block; }
-  .video-btn {
-    position:absolute; bottom:10px; right:10px;
-    background:rgba(0,0,0,0.72); border:1px solid rgba(255,255,255,0.15);
-    border-radius:8px; color:#fff; padding:5px 10px;
-    font-size:11px; font-family:'Space Mono',monospace;
-    cursor:pointer; backdrop-filter:blur(8px);
-    transition: background 0.15s, border-color 0.15s;
-    z-index:2;
-  }
-  .video-btn:hover { background:rgba(var(--dominant),0.2); border-color:rgba(var(--dominant),1); color:rgba(var(--dominant),1); }
-  .video-btn.hidden { display:none; }
+  .cover-img.vinyl ~ .vinyl-dot { opacity:1; }
 
+  /* track info */
   .track-info { text-align:center; flex-shrink:0; }
   .track-title { font-size:24px; font-weight:800; line-height:1.1; max-width:360px; margin-bottom:4px; letter-spacing:-0.5px; }
   .track-artist { font-size:12px; color:var(--muted); font-family:'Space Mono',monospace; margin-bottom:3px; }
-  .track-album { font-size:11px; color:rgba(var(--dominant),1); font-weight:600; opacity:0.85; margin-bottom:3px; }
-  .track-stink { font-size:14px; margin-bottom:8px; }
+  .track-album { font-size:11px; color:rgb(var(--dominant)); font-weight:600; opacity:0.85; margin-bottom:4px; transition:color 0.6s; }
+  .track-stink { font-size:14px; margin-bottom:10px; }
 
-  /* vinyl toggle btn */
-  .vinyl-toggle {
-    position:absolute; top:14px; right:14px;
-    background:rgba(0,0,0,0.5); border:1px solid var(--border);
-    border-radius:8px; color:var(--muted); padding:4px 10px;
-    font-size:10px; font-family:'Space Mono',monospace; cursor:pointer;
-    transition: all 0.15s; backdrop-filter:blur(8px);
+  /* action buttons row */
+  .action-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; flex-wrap:wrap; justify-content:center; }
+  .action-btn {
+    font-family:'Space Mono',monospace; font-size:10px;
+    color:var(--muted); background:none;
+    border:1px solid var(--border); padding:5px 12px;
+    border-radius:20px; cursor:pointer;
+    transition:all 0.2s; letter-spacing:0.5px;
   }
-  .vinyl-toggle:hover, .vinyl-toggle.on { color:rgba(var(--dominant),1); border-color:rgba(var(--dominant),0.4); background:rgba(var(--dominant),0.08); }
+  .action-btn:hover { color:rgb(var(--dominant)); border-color:rgba(var(--dominant),0.5); background:rgba(var(--dominant),0.06); }
+  .action-btn.on { color:rgb(var(--dominant)); border-color:rgba(var(--dominant),0.5); background:rgba(var(--dominant),0.08); }
 
   /* lyrics */
   .lyrics-panel {
@@ -193,42 +174,29 @@
     max-height:0; overflow:hidden;
     transition: max-height 0.4s ease;
   }
-  .lyrics-panel.open { max-height:180px; }
+  .lyrics-panel.open { max-height:190px; }
   .lyrics-inner {
-    overflow-y:auto; max-height:180px;
+    overflow-y:auto; max-height:190px;
     padding:12px 16px;
     background:rgba(255,255,255,0.03);
-    border:1px solid var(--border);
-    border-radius:12px;
-    margin-bottom:10px;
-    scrollbar-width:thin;
-    scrollbar-color: var(--bg3) transparent;
+    border:1px solid var(--border); border-radius:12px;
+    scrollbar-width:thin; scrollbar-color:var(--bg3) transparent;
   }
   .lyric-line {
-    font-size:13px; line-height:1.7; color:var(--muted);
-    transition: color 0.3s, font-size 0.3s;
+    font-size:13px; line-height:1.8; color:var(--muted);
+    transition:color 0.3s, transform 0.3s;
     text-align:center; padding:1px 0;
   }
-  .lyric-line.active { color:var(--text); font-size:14px; font-weight:700; }
-  .lyrics-btn {
-    font-family:'Space Mono',monospace; font-size:10px;
-    color:var(--muted); text-decoration:none;
-    border:1px solid var(--border); padding:4px 12px;
-    border-radius:20px; background:none; cursor:pointer;
-    transition:all 0.15s; margin-bottom:6px; display:inline-block;
+  .lyric-line.active {
+    color:var(--text); font-size:15px; font-weight:700;
+    transform:scale(1.04);
   }
-  .lyrics-btn:hover, .lyrics-btn.on { color:rgba(var(--dominant),1); border-color:rgba(var(--dominant),0.5); background:rgba(var(--dominant),0.06); }
-
-  .suno-link {
-    font-family:'Space Mono',monospace; font-size:10px;
-    color:var(--muted); text-decoration:none;
-    border:1px solid var(--border); padding:4px 12px;
-    border-radius:20px; transition:all 0.15s; letter-spacing:1px;
-    margin-top:4px; display:inline-block;
+  .lyric-empty {
+    font-size:12px; color:var(--muted); text-align:center;
+    font-family:'Space Mono',monospace; padding:8px 0;
   }
-  .suno-link:hover { color:rgba(var(--dominant),1); border-color:rgba(var(--dominant),0.5); background:rgba(var(--dominant),0.06); }
 
-  /* ══ PLAYER BAR ══ */
+  /* ── PLAYER BAR ── */
   .player-bar {
     background:rgba(10,10,18,0.97);
     border-top:1px solid var(--border);
@@ -242,50 +210,33 @@
   .player-info { min-width:0; width:150px; flex-shrink:0; }
   .player-title { font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .player-artist { font-size:10px; color:var(--muted); font-family:'Space Mono',monospace; margin-top:2px; }
-
   .player-controls { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; min-width:0; }
   .control-btns { display:flex; align-items:center; gap:10px; }
   .ctrl-btn {
     background:none; border:none; color:var(--muted);
-    cursor:pointer; font-size:16px; padding:4px;
-    border-radius:50%; transition:color 0.15s, transform 0.1s;
-    display:flex; align-items:center; justify-content:center;
-    position:relative;
+    cursor:pointer; font-size:16px; padding:4px; border-radius:50%;
+    transition:color 0.15s, transform 0.1s;
+    display:flex; align-items:center; justify-content:center; position:relative;
   }
   .ctrl-btn:hover { color:var(--text); transform:scale(1.1); }
-  .ctrl-btn.active-mode { color:rgba(var(--dominant),1); }
-  .ctrl-btn.active-mode::after {
+  .ctrl-btn.on { color:rgb(var(--dominant)); }
+  .ctrl-btn.on::after {
     content:''; position:absolute; bottom:-3px; left:50%; transform:translateX(-50%);
-    width:4px; height:4px; border-radius:50%;
-    background:rgba(var(--dominant),1);
+    width:4px; height:4px; border-radius:50%; background:rgb(var(--dominant));
   }
   .ctrl-btn.play-pause {
     width:38px; height:38px;
-    background:rgba(var(--dominant),1); color:#000;
+    background:rgb(var(--dominant)); color:#000;
     font-size:14px; border-radius:50%;
-    box-shadow: 0 0 20px rgba(var(--dominant),0.4);
-    transition: transform 0.1s, box-shadow 0.3s, background 0.6s;
+    box-shadow:0 0 20px rgba(var(--dominant),0.4);
+    transition:transform 0.1s, background 0.6s, box-shadow 0.6s;
   }
   .ctrl-btn.play-pause:hover { transform:scale(1.08); }
-
   .progress-wrap { display:flex; align-items:center; gap:7px; width:100%; }
   .time { font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); min-width:30px; text-align:center; flex-shrink:0; }
-  .progress-track {
-    flex:1; height:4px; background:var(--bg3);
-    border-radius:2px; cursor:pointer; position:relative;
-  }
-  .progress-fill {
-    height:100%; background:rgba(var(--dominant),1);
-    border-radius:2px; width:0%;
-    transition: width 0.1s linear, background 0.6s;
-    pointer-events:none;
-  }
-
-  /* volume inside controls */
-  .vol-row {
-    display:flex; align-items:center; gap:6px;
-    width:100%; max-width:200px;
-  }
+  .progress-track { flex:1; height:4px; background:var(--bg3); border-radius:2px; cursor:pointer; }
+  .progress-fill { height:100%; background:rgb(var(--dominant)); border-radius:2px; width:0%; transition:width 0.1s linear, background 0.6s; pointer-events:none; }
+  .vol-row { display:flex; align-items:center; gap:6px; width:110px; flex-shrink:0; }
   .vol-icon { font-size:13px; color:var(--muted); cursor:pointer; }
   input[type=range] {
     -webkit-appearance:none; appearance:none;
@@ -294,47 +245,22 @@
   }
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance:none; width:11px; height:11px;
-    background:rgba(var(--dominant),1); border-radius:50%;
-    transition: background 0.6s;
+    background:rgb(var(--dominant)); border-radius:50%; transition:background 0.6s;
   }
 
-  /* ══ VIDEO OVERLAY ══ */
-  .video-overlay {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.75); z-index:100;
-    align-items:center; justify-content:center;
-    backdrop-filter:blur(6px);
-  }
-  .video-overlay.show { display:flex; }
-  .video-wrap {
-    position:relative;
-    width:min(480px,90vw); height:min(480px,90vw);
-  }
-  .video-wrap video {
-    width:100%; height:100%; object-fit:cover;
-    border-radius:20px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06);
-  }
-  .close-video {
-    position:absolute; top:-40px; right:0;
-    background:none; border:none; color:#fff; font-size:26px; cursor:pointer; opacity:0.7;
-  }
-  .close-video:hover { opacity:1; }
-
-  /* ══ EASTER EGG ══ */
+  /* ── EASTER EGG ── */
   .easter-overlay {
     display:none; position:fixed; inset:0;
     background:rgba(0,0,0,0.9); z-index:200;
     align-items:center; justify-content:center;
-    flex-direction:column; gap:16px;
-    cursor:pointer;
+    flex-direction:column; gap:16px; cursor:pointer;
   }
   .easter-overlay.show { display:flex; }
   .easter-emoji { font-size:80px; animation:easterBounce 0.6s ease infinite alternate; }
-  .easter-msg { font-size:20px; font-weight:800; color:rgba(var(--dominant),1); text-align:center; padding:0 20px; }
+  .easter-msg { font-size:20px; font-weight:800; color:rgb(var(--dominant)); text-align:center; padding:0 20px; }
   .easter-sub { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
 
-  /* ══ ANIMATIONS ══ */
+  /* ── ANIMATIONS ── */
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
   @keyframes vinylSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
   @keyframes logoShake {
@@ -342,14 +268,15 @@
     45%{transform:rotate(-6deg)} 60%{transform:rotate(6deg)} 75%{transform:rotate(-3deg)}
     90%{transform:rotate(3deg)} 100%{transform:rotate(0deg)}
   }
-  @keyframes easterBounce { from{transform:scale(1) rotate(-5deg)} to{transform:scale(1.2) rotate(5deg)} }
+  @keyframes easterBounce { from{transform:scale(1)rotate(-5deg)} to{transform:scale(1.2)rotate(5deg)} }
 
   .song-list::-webkit-scrollbar { width:3px; }
   .song-list::-webkit-scrollbar-thumb { background:var(--bg3); border-radius:2px; }
+  .lyrics-inner::-webkit-scrollbar { width:3px; }
+  .lyrics-inner::-webkit-scrollbar-thumb { background:var(--bg3); border-radius:2px; }
 
-  /* ══ MOBILE ══ */
+  /* ── MOBILE ── */
   @media (max-width:640px) {
-    :root { --player-h: auto; }
     .app { flex-direction:column; }
     .sidebar { width:100%; height:auto; border-right:none; border-bottom:1px solid var(--border); flex-shrink:0; }
     .sidebar-header { padding:10px 14px 8px; }
@@ -359,30 +286,27 @@
     .song-list {
       display:flex; flex-direction:row;
       overflow-x:auto; overflow-y:hidden;
-      padding:6px 10px 10px; gap:8px;
-      scrollbar-width:none;
+      padding:6px 10px 10px; gap:8px; scrollbar-width:none;
     }
     .song-list::-webkit-scrollbar { display:none; }
     .song-item {
       flex-direction:column; align-items:center; text-align:center;
-      gap:4px; padding:7px; min-width:68px; max-width:68px;
-      border-radius:10px;
+      gap:4px; padding:7px; min-width:68px; max-width:68px; border-radius:10px;
     }
     .song-thumb { width:50px; height:50px; border-radius:8px; }
     .song-item-title { font-size:9px; white-space:normal; line-height:1.2; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
     .song-item-artist, .song-item-meta { display:none; }
     .play-indicator { position:absolute; top:4px; right:4px; }
-    .song-item { position:relative; }
 
     .now-playing-area { padding:14px 14px 8px; justify-content:flex-start; }
-    .cover-img { width:min(140px,35vw); height:min(140px,35vw); }
+    .cover-img { width:min(140px,34vw); height:min(140px,34vw); }
     .cover-wrap { margin-bottom:12px; }
     .track-title { font-size:17px; max-width:260px; }
     .vinyl-toggle { top:8px; right:8px; font-size:9px; padding:3px 8px; }
     .lyrics-panel.open { max-height:120px; }
     .lyrics-inner { max-height:120px; }
 
-    .player-bar { padding:8px 12px 10px; gap:8px; flex-wrap:wrap; height:auto; }
+    .player-bar { padding:8px 12px 10px; gap:8px; height:auto; }
     .player-thumb { width:38px; height:38px; }
     .player-info { width:100px; }
     .player-title { font-size:11px; }
@@ -406,45 +330,41 @@
   </aside>
 
   <main class="main">
-    <div class="bg-gradient" id="bgGradient"></div>
+    <div class="bg-glow" id="bgGlow"></div>
     <button class="vinyl-toggle" id="vinylToggle" onclick="toggleVinyl()">💿 Vinile</button>
+
     <div class="now-playing-area" id="nowPlayingArea">
-      <div class="cover-wrap" id="coverWrap">
+      <div class="cover-wrap">
         <img class="cover-img" id="mainCover" src="" alt="Cover" crossorigin="anonymous">
         <div class="vinyl-dot" id="vinylDot"></div>
-        <button class="video-btn hidden" id="videoBtn" onclick="openVideo()">🎤 Canta tu</button>
       </div>
+
       <div class="track-info">
         <div class="track-title" id="mainTitle">Seleziona una canzone</div>
         <div class="track-artist" id="mainArtist">@stinki97</div>
         <div class="track-album" id="mainAlbum"></div>
         <div class="track-stink" id="mainStink"></div>
       </div>
-      <button class="lyrics-btn" id="lyricsToggleBtn" onclick="toggleLyrics()" style="display:none">🎵 Testo</button>
+
+      <div class="action-row">
+        <button class="action-btn" id="karaokeBtn" onclick="toggleKaraoke()" style="display:none">🎤 Karaoke</button>
+        <a class="action-btn" href="https://suno.com/@stinki97" target="_blank">↗ Suno</a>
+      </div>
+
       <div class="lyrics-panel" id="lyricsPanel">
         <div class="lyrics-inner" id="lyricsInner"></div>
       </div>
-      <a class="suno-link" href="https://suno.com/@stinki97" target="_blank">↗ Apri su Suno</a>
     </div>
   </main>
 </div>
 
-<!-- video overlay -->
-<div class="video-overlay" id="videoOverlay">
-  <div class="video-wrap">
-    <button class="close-video" onclick="closeVideo()">✕</button>
-    <video id="videoEl" controls playsinline></video>
-  </div>
-</div>
-
-<!-- easter egg overlay -->
+<!-- easter egg -->
 <div class="easter-overlay" id="easterOverlay" onclick="closeEaster()">
   <div class="easter-emoji">🤢</div>
   <div class="easter-msg">HAI TROVATO LO STINK MODE!</div>
   <div class="easter-sub">tocca per chiudere... se ce la fai</div>
 </div>
 
-<!-- player bar -->
 <div class="player-bar">
   <img class="player-thumb" id="playerThumb" src="" alt="">
   <div class="player-info">
@@ -454,9 +374,9 @@
   <div class="player-controls">
     <div class="control-btns">
       <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">🔀</button>
-      <button class="ctrl-btn" onclick="prevTrack()" title="Precedente">⏮</button>
+      <button class="ctrl-btn" onclick="prevTrack()">⏮</button>
       <button class="ctrl-btn play-pause" id="playPauseBtn" onclick="togglePlay()">▶</button>
-      <button class="ctrl-btn" onclick="nextTrack()" title="Successivo">⏭</button>
+      <button class="ctrl-btn" onclick="nextTrack()">⏭</button>
       <button class="ctrl-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">🔁</button>
     </div>
     <div class="progress-wrap">
@@ -475,96 +395,185 @@
 
 <audio id="audioEl"></audio>
 
-<script>
-// ── SONG DATA ──
-const songs = [
+<!-- ══════════════════════════════════════════
+     SONGS DATA — modifica qui per aggiungere canzoni!
+     Per il karaoke aggiungi: lyrics: [ {time: 0, text: "prima riga"}, ... ]
+═══════════════════════════════════════════ -->
+<script id="songsData" type="application/json">
+[
   {
-    title: "Happy Wife Hunt",
-    album: "Happy Wife Hunt Pt. 1",
-    artist: "Stinki",
-    stink: 3,
-    cover: "Happy Wife Hunt.jpeg",
-    audio: "Happy Wife Hunt.mp3",
-    video: "Happy Wife Hunt.mp4",
-    lyrics: []
+    "title": "Happy Wife Hunt",
+    "album": "Happy Wife Hunt Pt. 1",
+    "artist": "Stinki",
+    "stink": 3,
+    "cover": "Happy Wife Hunt.jpeg",
+    "audio": "Happy Wife Hunt.mp3",
+    "lyrics": []
   },
   {
-    title: "Clumsy Bruise Drop",
-    album: "Happy Wife Hunt Pt. 2",
-    artist: "Stinki",
-    stink: 4,
-    cover: "Clumsy Bruise Drop (Happy Wife Hunt Pt. 2).jpeg",
-    audio: "Clumsy Bruise Drop (Happy Wife Hunt Pt. 2).mp3",
-    video: "Clumsy Bruise Drop (Happy Wife Hunt Pt. 2).mp4",
-    lyrics: []
+    "title": "Clumsy Bruise Drop",
+    "album": "Happy Wife Hunt Pt. 2",
+    "artist": "Stinki",
+    "stink": 4,
+    "cover": "Clumsy Bruise Drop (Happy Wife Hunt Pt. 2).jpeg",
+    "audio": "Clumsy Bruise Drop (Happy Wife Hunt Pt. 2).mp3",
+    "lyrics": []
   },
   {
-    title: "Hot Fart Warfare",
-    album: "Happy Wife Hunt Pt. 3",
-    artist: "Stinki",
-    stink: 5,
-    cover: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).jpeg",
-    audio: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).mp3",
-    video: "Hot Fart Warfare (Happy Wife Hunt Pt. 3).mp4",
-    lyrics: []
+    "title": "Hot Fart Warfare",
+    "album": "Happy Wife Hunt Pt. 3",
+    "artist": "Stinki",
+    "stink": 5,
+    "cover": "Hot Fart Warfare (Happy Wife Hunt Pt. 3).jpeg",
+    "audio": "Hot Fart Warfare (Happy Wife Hunt Pt. 3).mp3",
+    "lyrics": []
   },
   {
-    title: "O Come Lhe AndaHAA?",
-    album: "Stinki & Pasqui",
-    artist: "Stinki & Pasqui",
-    stink: 4,
-    cover: "O Come Lhe AndaHAAA_.jpeg",
-    audio: "O Come Lhe AndaHAAA_.mp3",
-    video: "O Come Lhe AndaHAAA_.mp4",
-    lyrics: []
+    "title": "O Come Lhe AndaHAA?",
+    "album": "Stinki & Pasqui",
+    "artist": "Stinki & Pasqui",
+    "stink": 4,
+    "cover": "O Come Lhe AndaHAAA_.jpeg",
+    "audio": "O Come Lhe AndaHAAA_.mp3",
+    "lyrics": []
   },
   {
-    title: "SHIT Again, Brittany",
-    album: "Happy life — Poor Ema's Nightmare",
-    artist: "Stinki",
-    stink: 5,
-    cover: "SHIT Again, Brittany.jpeg",
-    audio: "SHIT Again, Brittany.mp3",
-    video: "SHIT Again, Brittany.mp4",
-    lyrics: []
+    "title": "SHIT Again, Brittany",
+    "album": "Happy life — Poor Ema's Nightmare",
+    "artist": "Stinki",
+    "stink": 5,
+    "cover": "SHIT Again, Brittany.jpeg",
+    "audio": "SHIT Again, Brittany.mp3",
+    "lyrics": []
   },
   {
-    title: "Tube Blues per Iaia",
-    album: "Londra Chaos 70",
-    artist: "Stinki",
-    stink: 3,
-    cover: "Tube Blues.jpeg",
-    audio: "Tube Blues.mp3",
-    video: "Tube Blues.mp4",
-    lyrics: []
+    "title": "Tube Blues per Iaia",
+    "album": "Londra Chaos 70",
+    "artist": "Stinki",
+    "stink": 3,
+    "cover": "Tube Blues.jpeg",
+    "audio": "Tube Blues.mp3",
+    "lyrics": []
   },
   {
-    title: "Bicco 30",
-    album: "Bicco 30",
-    artist: "Stinki",
-    stink: 4,
-    cover: "Bicco 30.jpeg",
-    audio: "Bicco 30 (1).mp3",
-    video: "Bicco 30.mp4",
-    lyrics: []
+    "title": "Bicco 30",
+    "album": "Bicco 30",
+    "artist": "Stinki",
+    "stink": 4,
+    "cover": "Bicco 30.jpeg",
+    "audio": "Bicco 30 (1).mp3",
+    "lyrics": []
+  },
+  {
+    "title": "Il Tecnico di Rete",
+    "album": "Senza limiti",
+    "artist": "Stinki",
+    "stink": 4,
+    "cover": "Il_Tecnico_di_Rete.jpeg",
+    "audio": "Il_Tecnico_di_Rete.mp3",
+    "lyrics": [
+      "Sotto il cielo azzurro, lontano dai riflettori,",
+      "Emanuele B a Firenze, tra segnali e lavori.",
+      "Con il cuore saldo, e l'attenzione a ogni gesto,",
+      "Ogni cavo, ogni fibra, è parte di questo testo.",
+      "Daniele A in Massa Carrara, tra colline e mare,",
+      "Con la rete da risolvere, pronto a lavorare.",
+      "Mirco a Pistoia, sempre con precisione,",
+      "Ogni passo che fa è un'ulteriore connessione.",
+      "🎵 Siamo qui, nella rete che non si ferma mai,",
+      "Con ILIAD che cresce, e il tecnico che brilla,",
+      "Fino alla cima, fino al cuore di ogni segnale,",
+      "Un lavoro che unisce, senza mai rallentare.",
+      "Emanuele M, tra Livorno e Pisa,",
+      "Risolviamo ogni guasto, con la mente precisa.",
+      "Luca in Umbria, con gli occhi sul futuro,",
+      "Ogni fibra che passa è un segnale puro.",
+      "Daniele D a Prato, sempre sul campo,",
+      "Controllando ogni sistema, senza mai farlo stanco.",
+      "Stefano il capo, guida e leader in ogni passo,",
+      "Con lui la rete è forte, e il lavoro non ha un freno.",
+      "🎵 Siamo qui, nella rete che non si ferma mai,",
+      "Con ILIAD che cresce, e il tecnico che brilla,",
+      "Fino alla cima, fino al cuore di ogni segnale,",
+      "Un lavoro che unisce, senza mai rallentare.",
+      "In quota per un'installazione, senza paura,",
+      "Ogni passo è misurato, con la massima cura.",
+      "\"Senza limiti\", è il motto che non svanisce,",
+      "Ogni sito, ogni elemento, sempre pronto a partire.",
+      "\"Internet per tutti\", è la promessa che accende,",
+      "Una rete che è sempre lì, che mai ti delude,",
+      "Dal cuore della fibra, al segnale che arriva,",
+      "Con ILIAD che cresce, e il nostro lavoro che si avviva.",
+      "🎵 Siamo qui, nella rete che non si ferma mai,",
+      "Con ILIAD che cresce, e il tecnico che brilla,",
+      "Fino alla cima, fino al cuore di ogni segnale,",
+      "Un lavoro che unisce, senza mai rallentare.",
+      "Tra il cielo e la rete, sempre in movimento,",
+      "Il tecnico di Iliad, sempre nel momento.",
+      "Un campo da conquistare, un lavoro che non finisce,",
+      "Nel cuore della rete, dove la vita non svanisce.",
+      "\"Con ILIAD, senza limiti\" — sempre a trionfare!"
+    ]
+  },
+  {
+    "title": "Nicholas, sempre sin camisa",
+    "album": "Siempre con Sonrisa",
+    "artist": "Stinki",
+    "stink": 5,
+    "cover": "Nicholas__sempre_sin_camisa.png",
+    "audio": "Nicholas__sempre_sin_camisa.mp3",
+    "lyrics": [
+      "🎺 ¡Ay mamá! Aquí viene Nicholas…",
+      "Con muscoli e risate!",
+      "Ma sempre in ritardo…",
+      "Nicholas è grosso come un comodino,",
+      "Cammina lento, ma ha il passo divino.",
+      "Per fare gli attrezzi, via la maglia,",
+      "E tutti lo guardano… che forza che abbaglia!",
+      "🎵 Nicholas, Nicholas, sempre sin camisa,",
+      "Nicholas, Nicholas, sempre con sonrisa.",
+      "Quando corre, quando balla,",
+      "Via la maglia, e la gente applauda.",
+      "Lo chiami alle otto, ma arriva alle dieci,",
+      "Ma quando entra… ti stendi felice.",
+      "Non puoi gestirlo, no tiene freno,",
+      "Ma quando balla, scuote il terreno!",
+      "🎵 Nicholas, Nicholas, sempre sin camisa,",
+      "Nicholas, Nicholas, sempre con sonrisa.",
+      "Quando corre, quando balla,",
+      "Via la maglia, e la gente applauda.",
+      "🎤 Oye, compay! Nicholas è sempre un caso!",
+      "Quando deve correre… ¡fuera la maglia!",
+      "E se c'è da ballare… ¡tutta la pista è sua!",
+      "Nicholas, comodín,",
+      "Sempre tardi, ma con swing,",
+      "Nicholas, comodín,",
+      "Muscoli e ritmo… sin fin.",
+      "Baila, ríe, Nicholas,",
+      "La pista è tutta tua!"
+    ]
   }
-];
+]
+</script>
+
+<script>
+// ── DATA ──
+const songs = JSON.parse(document.getElementById('songsData').textContent);
 
 function enc(f) { return f ? encodeURI(f) : null; }
-function stinkStr(n) { return '🤢'.repeat(n); }
+function stinkStr(n) { return '🤢'.repeat(n || 0); }
 
 // ── STATE ──
 let currentIdx = -1;
-let isPlaying = false;
-let shuffleOn = false;
-let repeatOn = false;
-let vinylOn = false;
-let isMuted = false;
+let isPlaying  = false;
+let shuffleOn  = false;
+let repeatOn   = false;
+let vinylOn    = false;
+let isMuted    = false;
+let karaokeOpen = false;
 let shuffleOrder = [];
-let lyricsOpen = false;
-let lyricTimer = null;
 
-// ── PLAY COUNTS (localStorage) ──
+// ── PLAY COUNTS ──
 function getCounts() {
   try { return JSON.parse(localStorage.getItem('stinkify_counts') || '{}'); } catch { return {}; }
 }
@@ -572,12 +581,8 @@ function incCount(idx) {
   const c = getCounts();
   c[idx] = (c[idx] || 0) + 1;
   try { localStorage.setItem('stinkify_counts', JSON.stringify(c)); } catch {}
-  updateCountBadge(idx);
-}
-function updateCountBadge(idx) {
-  const c = getCounts();
   const el = document.getElementById('count-' + idx);
-  if (el) el.textContent = c[idx] ? '▶ ' + c[idx] : '';
+  if (el) el.textContent = '▶ ' + c[idx];
 }
 
 // ── BUILD SIDEBAR ──
@@ -603,53 +608,47 @@ songs.forEach((s, i) => {
   songListEl.appendChild(el);
 });
 
-// ── DOM refs ──
-const audioEl = document.getElementById('audioEl');
-const videoEl = document.getElementById('videoEl');
-const mainCover = document.getElementById('mainCover');
-const mainTitle = document.getElementById('mainTitle');
-const mainArtist = document.getElementById('mainArtist');
-const mainAlbum = document.getElementById('mainAlbum');
-const mainStink = document.getElementById('mainStink');
-const playerThumb = document.getElementById('playerThumb');
-const playerTitle = document.getElementById('playerTitle');
+// ── DOM REFS ──
+const audioEl      = document.getElementById('audioEl');
+const mainCover    = document.getElementById('mainCover');
+const mainTitle    = document.getElementById('mainTitle');
+const mainArtist   = document.getElementById('mainArtist');
+const mainAlbum    = document.getElementById('mainAlbum');
+const mainStink    = document.getElementById('mainStink');
+const playerThumb  = document.getElementById('playerThumb');
+const playerTitle  = document.getElementById('playerTitle');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const progressFill = document.getElementById('progressFill');
-const currentTimeEl = document.getElementById('currentTime');
-const totalTimeEl = document.getElementById('totalTime');
-const videoBtn = document.getElementById('videoBtn');
-const shuffleBtn = document.getElementById('shuffleBtn');
-const repeatBtn = document.getElementById('repeatBtn');
-const vinylToggle = document.getElementById('vinylToggle');
-const lyricsPanel = document.getElementById('lyricsPanel');
-const lyricsInner = document.getElementById('lyricsInner');
-const lyricsToggleBtn = document.getElementById('lyricsToggleBtn');
-const bgGradient = document.getElementById('bgGradient');
+const currentTimeEl= document.getElementById('currentTime');
+const totalTimeEl  = document.getElementById('totalTime');
+const karaokeBtn   = document.getElementById('karaokeBtn');
+const lyricsPanel  = document.getElementById('lyricsPanel');
+const lyricsInner  = document.getElementById('lyricsInner');
+const vinylToggle  = document.getElementById('vinylToggle');
+const bgGlow       = document.getElementById('bgGlow');
 
 // ── DOMINANT COLOR ──
-function extractDominantColor(imgEl) {
+function extractColor(imgEl) {
   try {
-    const canvas = document.createElement('canvas');
-    canvas.width = 16; canvas.height = 16;
-    const ctx = canvas.getContext('2d');
+    const c = document.createElement('canvas');
+    c.width = 16; c.height = 16;
+    const ctx = c.getContext('2d');
     ctx.drawImage(imgEl, 0, 0, 16, 16);
-    const data = ctx.getImageData(0, 0, 16, 16).data;
-    let r=0, g=0, b=0, count=0;
-    for (let i=0; i<data.length; i+=4) {
-      // skip very dark or very bright pixels
-      const brightness = (data[i]+data[i+1]+data[i+2])/3;
-      if (brightness < 20 || brightness > 240) continue;
-      r += data[i]; g += data[i+1]; b += data[i+2]; count++;
+    const d = ctx.getImageData(0,0,16,16).data;
+    let r=0,g=0,b=0,n=0;
+    for (let i=0;i<d.length;i+=4) {
+      const bright=(d[i]+d[i+1]+d[i+2])/3;
+      if (bright<20||bright>235) continue;
+      r+=d[i]; g+=d[i+1]; b+=d[i+2]; n++;
     }
-    if (!count) return null;
-    return [Math.round(r/count), Math.round(g/count), Math.round(b/count)];
-  } catch { return null; }
+    if (!n) return;
+    applyColor(Math.round(r/n), Math.round(g/n), Math.round(b/n));
+  } catch(e) {}
 }
-
-function applyDominantColor(rgb) {
-  const v = rgb.join(',');
+function applyColor(r,g,b) {
+  const v = `${r},${g},${b}`;
   document.documentElement.style.setProperty('--dominant', v);
-  document.documentElement.style.setProperty('--accent', `rgb(${v})`);
+  bgGlow.style.background = `radial-gradient(ellipse at 50% 0%, rgba(${v},0.09) 0%, transparent 60%)`;
 }
 
 // ── LOAD SONG ──
@@ -657,76 +656,109 @@ function loadSong(idx, play=false) {
   document.querySelectorAll('.song-item').forEach(el => el.classList.remove('active'));
   currentIdx = idx;
   const s = songs[idx];
-  document.getElementById('song-' + idx).classList.add('active');
-  document.getElementById('song-' + idx).scrollIntoView({block:'nearest', inline:'nearest', behavior:'smooth'});
+  const item = document.getElementById('song-'+idx);
+  item.classList.add('active');
+  item.scrollIntoView({block:'nearest', inline:'nearest', behavior:'smooth'});
 
-  // cover
   mainCover.src = enc(s.cover);
   playerThumb.src = enc(s.cover);
-  mainCover.className = 'cover-img' + (vinylOn ? ' vinyl-mode' : '') + (!isPlaying ? ' paused' : '');
+  mainCover.onload = () => extractColor(mainCover);
 
-  mainCover.onload = function() {
-    const rgb = extractDominantColor(mainCover);
-    if (rgb) applyDominantColor(rgb);
-  };
-
-  // info
-  mainTitle.textContent = s.title;
+  mainTitle.textContent  = s.title;
   mainArtist.textContent = s.artist;
-  mainAlbum.textContent = s.album;
-  mainStink.textContent = stinkStr(s.stink);
+  mainAlbum.textContent  = s.album;
+  mainStink.textContent  = stinkStr(s.stink);
   playerTitle.textContent = s.title;
 
-  videoBtn.classList.toggle('hidden', !s.video);
+  updateCoverClass();
 
-  // lyrics
+  // karaoke button
+  const hasLyrics = s.lyrics && s.lyrics.length > 0;
+  karaokeBtn.style.display = hasLyrics ? 'inline-block' : 'none';
+  if (!hasLyrics && karaokeOpen) {
+    karaokeOpen = false;
+    lyricsPanel.classList.remove('open');
+    karaokeBtn.classList.remove('on');
+  }
   setupLyrics(s);
 
   // audio
   audioEl.pause();
   progressFill.style.width = '0%';
   currentTimeEl.textContent = '0:00';
-  totalTimeEl.textContent = '0:00';
-  clearTimeout(lyricTimer);
+  totalTimeEl.textContent   = '0:00';
 
   if (s.audio) {
     audioEl.src = enc(s.audio);
     audioEl.volume = document.getElementById('volSlider').value;
     if (play) {
-      audioEl.play().then(() => { isPlaying=true; updatePlayBtn(); updateCoverAnim(); incCount(idx); }).catch(()=>{});
+      audioEl.play()
+        .then(() => { isPlaying=true; updatePlayBtn(); updateCoverClass(); incCount(idx); })
+        .catch(() => {});
     } else {
-      isPlaying=false; updatePlayBtn(); updateCoverAnim();
+      isPlaying = false; updatePlayBtn(); updateCoverClass();
     }
   } else {
-    audioEl.src=''; isPlaying=false; updatePlayBtn(); updateCoverAnim();
+    audioEl.src = '';
+    isPlaying = false; updatePlayBtn(); updateCoverClass();
   }
+}
+
+// ── COVER CLASS ──
+function updateCoverClass() {
+  const cls = ['cover-img'];
+  if (vinylOn) cls.push('vinyl');
+  if (vinylOn && !isPlaying) cls.push('paused');
+  mainCover.className = cls.join(' ');
+}
+
+// ── VINYL ──
+function toggleVinyl() {
+  vinylOn = !vinylOn;
+  vinylToggle.textContent = vinylOn ? '🖼 Copertina' : '💿 Vinile';
+  vinylToggle.classList.toggle('on', vinylOn);
+  updateCoverClass();
+}
+
+// ── KARAOKE ──
+function toggleKaraoke() {
+  karaokeOpen = !karaokeOpen;
+  lyricsPanel.classList.toggle('open', karaokeOpen);
+  karaokeBtn.classList.toggle('on', karaokeOpen);
 }
 
 function setupLyrics(s) {
   lyricsInner.innerHTML = '';
-  if (!s.lyrics || s.lyrics.length === 0) {
-    lyricsToggleBtn.style.display = 'none';
-    lyricsPanel.classList.remove('open');
-    lyricsOpen = false;
+  if (!s.lyrics || !s.lyrics.length) {
+    lyricsInner.innerHTML = '<div class="lyric-empty">Testo non ancora disponibile 🎵</div>';
     return;
   }
-  lyricsToggleBtn.style.display = 'inline-block';
   s.lyrics.forEach((line, i) => {
     const div = document.createElement('div');
     div.className = 'lyric-line';
-    div.id = 'lyric-' + i;
-    div.textContent = line.text || line;
+    div.id = 'lyric-'+i;
+    div.textContent = typeof line === 'string' ? line : line.text;
     lyricsInner.appendChild(div);
   });
 }
 
-function toggleLyrics() {
-  lyricsOpen = !lyricsOpen;
-  lyricsPanel.classList.toggle('open', lyricsOpen);
-  lyricsToggleBtn.classList.toggle('on', lyricsOpen);
+function updateLyricHighlight() {
+  const s = songs[currentIdx];
+  if (!s || !s.lyrics || !s.lyrics.length) return;
+  const t = audioEl.currentTime;
+  let active = -1;
+  s.lyrics.forEach((line, i) => {
+    if (typeof line === 'object' && line.time !== undefined && t >= line.time) active = i;
+  });
+  if (active < 0) return;
+  document.querySelectorAll('.lyric-line').forEach((el, i) => {
+    el.classList.toggle('active', i === active);
+  });
+  const el = document.getElementById('lyric-'+active);
+  if (el) el.scrollIntoView({block:'center', behavior:'smooth'});
 }
 
-// ── PLAY/PAUSE ──
+// ── PLAY / PAUSE ──
 function togglePlay() {
   if (currentIdx === -1) { loadSong(0, true); return; }
   if (!songs[currentIdx].audio) return;
@@ -736,98 +768,48 @@ function togglePlay() {
     audioEl.play().then(() => { incCount(currentIdx); }).catch(()=>{});
   }
 }
+function updatePlayBtn() { playPauseBtn.textContent = isPlaying ? '⏸' : '▶'; }
 
-function updatePlayBtn() {
-  playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
-}
-
-function updateCoverAnim() {
-  const cls = ['cover-img'];
-  if (vinylOn) cls.push('vinyl-mode');
-  if (vinylOn && !isPlaying) cls.push('paused');
-  mainCover.className = cls.join(' ');
-}
-
-// ── NEXT / PREV ──
-function getNextIdx() {
-  if (shuffleOn) {
-    if (!shuffleOrder.length) buildShuffleOrder();
-    const i = shuffleOrder.shift();
-    if (!shuffleOrder.length) buildShuffleOrder();
-    return i;
-  }
-  return (currentIdx + 1) % songs.length;
-}
-function buildShuffleOrder() {
-  shuffleOrder = songs.map((_,i) => i).filter(i => i !== currentIdx).sort(() => Math.random()-0.5);
-}
+// ── PREV / NEXT ──
 function prevTrack() {
-  const idx = currentIdx <= 0 ? songs.length-1 : currentIdx-1;
-  loadSong(idx, isPlaying);
+  loadSong(currentIdx <= 0 ? songs.length-1 : currentIdx-1, isPlaying);
 }
 function nextTrack() {
-  if (repeatOn) {
-    audioEl.currentTime = 0;
-    audioEl.play().then(()=>{ incCount(currentIdx); }).catch(()=>{});
-    return;
-  }
-  loadSong(getNextIdx(), isPlaying);
+  if (repeatOn) { audioEl.currentTime=0; audioEl.play().catch(()=>{}); return; }
+  const idx = shuffleOn ? getShuffleIdx() : (currentIdx+1) % songs.length;
+  loadSong(idx, isPlaying);
+}
+function getShuffleIdx() {
+  if (!shuffleOrder.length) buildShuffle();
+  return shuffleOrder.shift();
+}
+function buildShuffle() {
+  shuffleOrder = songs.map((_,i)=>i).filter(i=>i!==currentIdx).sort(()=>Math.random()-0.5);
 }
 
 // ── SHUFFLE / REPEAT ──
 function toggleShuffle() {
   shuffleOn = !shuffleOn;
-  shuffleBtn.classList.toggle('active-mode', shuffleOn);
-  if (shuffleOn) buildShuffleOrder();
+  document.getElementById('shuffleBtn').classList.toggle('on', shuffleOn);
+  if (shuffleOn) buildShuffle();
 }
 function toggleRepeat() {
   repeatOn = !repeatOn;
-  repeatBtn.classList.toggle('active-mode', repeatOn);
+  document.getElementById('repeatBtn').classList.toggle('on', repeatOn);
 }
 
-// ── VINYL ──
-function toggleVinyl() {
-  vinylOn = !vinylOn;
-  vinylToggle.classList.toggle('on', vinylOn);
-  vinylToggle.textContent = vinylOn ? '🖼 Copertina' : '💿 Vinile';
-  updateCoverAnim();
-}
-
-// ── VOLUME ──
-function setVolume(v) { audioEl.volume = v; isMuted = v == 0; }
+// ── VOLUME / SEEK ──
+function setVolume(v) { audioEl.volume=v; isMuted=(v==0); }
 function toggleMute() {
-  const slider = document.getElementById('volSlider');
-  if (isMuted) { slider.value=0.8; audioEl.volume=0.8; isMuted=false; }
-  else { slider.value=0; audioEl.volume=0; isMuted=true; }
+  const sl = document.getElementById('volSlider');
+  isMuted = !isMuted;
+  sl.value = isMuted ? 0 : 0.8;
+  audioEl.volume = sl.value;
 }
-
-// ── SEEK ──
 function seekTo(e) {
   if (!audioEl.duration) return;
   const rect = e.currentTarget.getBoundingClientRect();
-  audioEl.currentTime = ((e.clientX - rect.left) / rect.width) * audioEl.duration;
-}
-
-// ── VIDEO ──
-function openVideo() {
-  if (currentIdx===-1 || !songs[currentIdx].video) return;
-  videoEl.src = enc(songs[currentIdx].video);
-  videoEl.currentTime = audioEl.currentTime;
-  audioEl.pause();
-  document.getElementById('videoOverlay').classList.add('show');
-  videoEl.play();
-}
-function closeVideo() {
-  videoEl.pause();
-  audioEl.currentTime = videoEl.currentTime;
-  videoEl.src = '';
-  document.getElementById('videoOverlay').classList.remove('show');
-}
-
-// ── TIME FORMAT ──
-function fmtTime(s) {
-  if (isNaN(s)) return '0:00';
-  return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+  audioEl.currentTime = ((e.clientX-rect.left)/rect.width)*audioEl.duration;
 }
 
 // ── AUDIO EVENTS ──
@@ -839,76 +821,54 @@ audioEl.addEventListener('timeupdate', () => {
 });
 audioEl.addEventListener('loadedmetadata', () => { totalTimeEl.textContent = fmtTime(audioEl.duration); });
 audioEl.addEventListener('ended', nextTrack);
-audioEl.addEventListener('play', () => { isPlaying=true; updatePlayBtn(); updateCoverAnim(); });
-audioEl.addEventListener('pause', () => { isPlaying=false; updatePlayBtn(); updateCoverAnim(); });
+audioEl.addEventListener('play',  () => { isPlaying=true;  updatePlayBtn(); updateCoverClass(); });
+audioEl.addEventListener('pause', () => { isPlaying=false; updatePlayBtn(); updateCoverClass(); });
 
-// ── LYRIC SYNC ──
-function updateLyricHighlight() {
-  const s = songs[currentIdx];
-  if (!s || !s.lyrics || !s.lyrics.length) return;
-  const t = audioEl.currentTime;
-  let active = -1;
-  for (let i=0; i<s.lyrics.length; i++) {
-    if (s.lyrics[i].time !== undefined && t >= s.lyrics[i].time) active = i;
-  }
-  if (active < 0) return;
-  document.querySelectorAll('.lyric-line').forEach((el,i) => {
-    el.classList.toggle('active', i===active);
-  });
-  const activeLine = document.getElementById('lyric-'+active);
-  if (activeLine) activeLine.scrollIntoView({block:'center', behavior:'smooth'});
+function fmtTime(s) {
+  if (isNaN(s)) return '0:00';
+  return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
 }
 
 // ── SWIPE (mobile) ──
 let touchStartX = 0;
-const nowPlayingArea = document.getElementById('nowPlayingArea');
-nowPlayingArea.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
-nowPlayingArea.addEventListener('touchend', e => {
+const npa = document.getElementById('nowPlayingArea');
+npa.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+npa.addEventListener('touchend',   e => {
   const dx = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(dx) > 50) {
-    if (dx < 0) nextTrack(); else prevTrack();
-  }
+  if (Math.abs(dx) > 50) { dx < 0 ? nextTrack() : prevTrack(); }
 }, {passive:true});
 
 // ── KEYBOARD ──
 document.addEventListener('keydown', e => {
-  if (e.key==='Escape') closeVideo();
+  if (e.key==='Escape') closeEaster();
   if (e.key===' ' && e.target.tagName!=='INPUT') { e.preventDefault(); togglePlay(); }
   if (e.key==='ArrowRight' && !e.target.closest('input')) nextTrack();
-  if (e.key==='ArrowLeft' && !e.target.closest('input')) prevTrack();
+  if (e.key==='ArrowLeft'  && !e.target.closest('input')) prevTrack();
 });
 
 // ── EASTER EGG ──
-let logoClicks = 0;
-let logoClickTimer = null;
+let logoClicks=0, logoTimer=null;
 document.getElementById('logoWrap').addEventListener('click', () => {
   const logo = document.getElementById('logo');
   logo.classList.remove('shake');
   void logo.offsetWidth;
   logo.classList.add('shake');
   logoClicks++;
-  clearTimeout(logoClickTimer);
-  logoClickTimer = setTimeout(() => { logoClicks = 0; }, 1500);
+  clearTimeout(logoTimer);
+  logoTimer = setTimeout(()=>{ logoClicks=0; }, 1500);
   if (logoClicks >= 5) {
     logoClicks = 0;
     document.getElementById('easterOverlay').classList.add('show');
-    // change all colors to chaos
-    document.documentElement.style.setProperty('--dominant', '255,69,180');
-    document.documentElement.style.setProperty('--accent', 'rgb(255,69,180)');
+    applyColor(255, 69, 180);
   }
 });
 function closeEaster() {
   document.getElementById('easterOverlay').classList.remove('show');
-  // restore current song color
-  if (currentIdx >= 0) {
-    mainCover.onload && mainCover.onload();
-    const rgb = extractDominantColor(mainCover);
-    if (rgb) applyDominantColor(rgb);
-    else { document.documentElement.style.setProperty('--dominant','180,240,69'); document.documentElement.style.setProperty('--accent','#b4f045'); }
-  }
+  if (currentIdx >= 0) extractColor(mainCover);
+  else applyColor(180,240,69);
 }
 
-// init
+// ── INIT ──
 loadSong(0, false);
 </script>
 </body>
