@@ -1080,11 +1080,15 @@ function loadSong(idx, play=false) {
 
   if (s.audio) {
     audioEl.src = enc(s.audio);
+    audioEl.load();
     audioEl.volume = document.getElementById('volSlider').value;
     if (play) {
-      audioEl.play()
-        .then(() => { isPlaying=true; updatePlayBtn(); updateCoverClass(); incCount(idx); })
-        .catch(() => {});
+      audioEl.addEventListener('canplay', function onCanPlay() {
+        audioEl.removeEventListener('canplay', onCanPlay);
+        audioEl.play()
+          .then(() => { isPlaying=true; updatePlayBtn(); updateCoverClass(); incCount(idx); })
+          .catch(() => { isPlaying=false; updatePlayBtn(); updateCoverClass(); });
+      }, { once: true });
     } else {
       isPlaying = false; updatePlayBtn(); updateCoverClass();
     }
